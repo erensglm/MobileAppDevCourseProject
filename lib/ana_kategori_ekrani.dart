@@ -37,14 +37,21 @@ class _AnaKategoriEkraniState extends State<AnaKategoriEkrani> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+                final category = snapshot.data![index]['strCategory'];
                 return ListTile(
-                  title: Text(snapshot.data![index]['strCategory']),
+                  title: Hero(
+                    tag: category,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Text(category),
+                    ),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AltKategoriEkrani(
-                          kategori: snapshot.data![index]['strCategory'],
+                          kategori: category,
                         ),
                       ),
                     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'yemek_detay_ekrani.dart';
 
 class AltKategoriEkrani extends StatefulWidget {
   final String kategori;
@@ -25,7 +26,13 @@ class _AltKategoriEkraniState extends State<AltKategoriEkrani> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.kategori} Yemekleri'),
+        title: Hero(
+          tag: widget.kategori,
+          child: Material(
+            color: Colors.transparent,
+            child: Text('${widget.kategori} Yemekleri'),
+          ),
+        ),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: futureMeals,
@@ -40,9 +47,19 @@ class _AltKategoriEkraniState extends State<AltKategoriEkrani> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+                final meal = snapshot.data![index];
                 return ListTile(
-                  title: Text(snapshot.data![index]['strMeal']),
-                  // Burada yemek detayları sayfasına gitmek için onTap fonksiyonu eklenebilir
+                  title: Text(meal['strMeal']),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => YemekDetayEkrani(
+                          meal: meal,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             );
